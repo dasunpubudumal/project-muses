@@ -3,6 +3,7 @@ package org.realtix;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
 import org.realtix.exception.AwsException;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -19,7 +20,6 @@ import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.waiters.S3Waiter;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
@@ -29,6 +29,7 @@ import static org.testcontainers.containers.localstack.LocalStackContainer.Servi
 
 @Testcontainers
 @Slf4j
+@Tag("Integration")
 public class S3FileTransferManagerIntegrationTest {
 
     private static final String DATA_LAKE_NAME = "realtixdatalake";
