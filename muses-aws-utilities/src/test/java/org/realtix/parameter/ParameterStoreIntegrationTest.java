@@ -6,6 +6,8 @@ import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
@@ -31,6 +33,12 @@ class ParameterStoreIntegrationTest {
             .withServices(SSM);
 
     SsmClient ssmClient = SsmClient.builder()
+            .credentialsProvider(
+                    StaticCredentialsProvider.create(
+                            AwsBasicCredentials.create(localstack.getAccessKey(), localstack.getSecretKey())
+                    )
+            )
+            .endpointOverride(localstack.getEndpointOverride(SSM))
             .region(Region.of(localstack.getRegion()))
             .build();
 
