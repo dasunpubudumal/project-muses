@@ -1,4 +1,4 @@
-package org.realtix;
+package org.realtix.s3;
 
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;

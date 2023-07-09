@@ -1,4 +1,4 @@
-package org.realtix;
+package org.realtix.s3;
 
 import jdk.jshell.spi.ExecutionControl;
 import org.realtix.exception.AwsException;
