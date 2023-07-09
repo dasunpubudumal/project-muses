@@ -1,9 +1,7 @@
 package org.realtix.parameter;
 
-public interface IParameterStore<T> {
+public interface IParameterStore {
 
     String getParameter(String key);
-
-    T getParameterObject(String key);
 
 }
