@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="752f6d42-dd1a-42b5-ab03-eaf19423f788" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/org/realtix/ObjectMapperSingleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content-manager/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content-manager/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content-manager/src/main/java/org/realtix/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/main/java/org/realtix/ConversionBound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/main/java/org/realtix/IS3FileTransferManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/main/java/org/realtix/S3ClientWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/main/java/org/realtix/S3FileTransferManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/main/java/org/realtix/exception/AwsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/test/java/org/realtix/S3FileTransferManagerIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/test/java/org/realtix/S3FileTransferManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/muses-aws-utilities/src/test/resources/sample-json.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2SHxuFa0YN0If0MyN7lgaQTFdiM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindowBuild.ShowToolbar": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "spring.configuration.checksum": "3d9528cdf7469f1cb44c73359f8c2302",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.realtix" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean install" />
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.S3FileTransferManagerIntegrationTest.testGet">
+    <configuration name="S3FileTransferManagerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="muses-aws-utilities" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.realtix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <option name="PACKAGE_NAME" value="org.realtix" />
+      <option name="MAIN_CLASS_NAME" value="org.realtix.S3FileTransferManagerIntegrationTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <envs>
+        <env name="HOSTNAME_EXTERNAL" value="localhost" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="S3FileTransferManagerIntegrationTest.testGet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="muses-aws-utilities" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.realtix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.realtix" />
+      <option name="MAIN_CLASS_NAME" value="org.realtix.S3FileTransferManagerIntegrationTest" />
+      <option name="METHOD_NAME" value="testGet" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="S3FileTransferManagerIntegrationTest.testPut" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="muses-aws-utilities" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.realtix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.realtix" />
+      <option name="MAIN_CLASS_NAME" value="org.realtix.S3FileTransferManagerIntegrationTest" />
+      <option name="METHOD_NAME" value="testPut" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="S3FileTransferManagerTest.testResolveUri" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="muses-aws-utilities" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.realtix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.realtix" />
+      <option name="MAIN_CLASS_NAME" value="org.realtix.S3FileTransferManagerTest" />
+      <option name="METHOD_NAME" value="testResolveUri" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="S3FileTransferManagerTest.testResolveUriNotNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="muses-aws-utilities" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.realtix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.realtix" />
+      <option name="MAIN_CLASS_NAME" value="org.realtix.S3FileTransferManagerTest" />
+      <option name="METHOD_NAME" value="testResolveUriNotNull" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest.testGet" />
+      <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest.testPut" />
+      <item itemvalue="JUnit.S3FileTransferManagerTest.testResolveUri" />
+      <item itemvalue="JUnit.S3FileTransferManagerTest.testResolveUriNotNull" />
+      <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest.testGet" />
+        <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest.testPut" />
+        <item itemvalue="JUnit.S3FileTransferManagerTest.testResolveUriNotNull" />
+        <item itemvalue="JUnit.S3FileTransferManagerTest.testResolveUri" />
+        <item itemvalue="JUnit.S3FileTransferManagerIntegrationTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="752f6d42-dd1a-42b5-ab03-eaf19423f788" name="Changes" comment="" />
+      <created>1688817530509</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688817530509</updated>
+      <workItem from="1688817531636" duration="542000" />
+      <workItem from="1688818971717" duration="325000" />
+      <workItem from="1688823540660" duration="1364000" />
+      <workItem from="1688835513781" duration="179000" />
+      <workItem from="1688865110135" duration="491000" />
+      <workItem from="1688869604570" duration="16393000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/software/amazon/awssdk/sdk-core/2.20.99/sdk-core-2.20.99-sources.jar!/software/amazon/awssdk/core/internal/handler/BaseClientHandler.java</url>
+          <line>196</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/software/amazon/awssdk/sdk-core/2.20.99/sdk-core-2.20.99-sources.jar!/software/amazon/awssdk/core/internal/handler/BaseClientHandler.java</url>
+          <line>158</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/software/amazon/awssdk/s3/2.20.99/s3-2.20.99-sources.jar!/software/amazon/awssdk/services/s3/endpoints/internal/AwsEndpointProviderUtils.java</url>
+          <line>178</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
