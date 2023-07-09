@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jdk.jshell.spi.ExecutionControl;
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -58,8 +58,25 @@ public final class S3FileTransferManager<T extends ConversionBound> implements I
                     putObjectRequest,
                     ObjectMapperSingleton.INSTANCE.mapper().writeValueAsString(data)
             );
-
         } catch (JsonProcessingException e) {
+            throw new AwsException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void remove(String key, String bucket) throws AwsException {
+        try {
+            Delete del = Delete.builder()
+                    .objects(Collections.singleton(
+                            ObjectIdentifier.builder().key(key).build()
+                    ))
+                    .build();
+            DeleteObjectsRequest multiObjectDeleteRequest = DeleteObjectsRequest.builder()
+                    .bucket(bucket)
+                    .delete(del)
+                    .build();
+            s3ClientWrapper.remove(multiObjectDeleteRequest);
+        } catch (Exception e) {
             throw new AwsException(e.getMessage());
         }
     }
