@@ -8,14 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.realtix.exception.AwsException;
-import software.amazon.awssdk.core.ResponseBytes;
-import software.amazon.awssdk.core.sync.ResponseTransformer;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import org.realtix.s3.ConversionBound;
+import org.realtix.s3.S3ClientWrapper;
+import org.realtix.s3.S3FileTransferManager;
 
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
 

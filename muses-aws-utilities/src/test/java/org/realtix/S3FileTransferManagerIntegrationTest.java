@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Tag;
 import org.realtix.exception.AwsException;
+import org.realtix.s3.ConversionBound;
+import org.realtix.s3.S3ClientWrapper;
+import org.realtix.s3.S3FileTransferManager;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -23,8 +26,7 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.S3;
 
 @Testcontainers
@@ -119,6 +121,21 @@ public class S3FileTransferManagerIntegrationTest {
         Person person = transferManager.get("person.json", DATA_LAKE_NAME);
         assertNotNull(person);
         assertEquals("Dasun Pubudumal", person.getName());
+    }
+
+    @Test
+    @DisplayName("Given a bucket, a file and the file key, test removing the file")
+    void testRemove() throws AwsException {
+        createBucketAndInsertJsonFile();
+        transferManager.remove("person.json", DATA_LAKE_NAME);
+        assertThrows(NoSuchKeyException.class, () -> {
+            s3.getObject(
+                    GetObjectRequest.builder()
+                            .bucket(DATA_LAKE_NAME)
+                            .key("person.json").build(),
+                    ResponseTransformer.toBytes()
+            );
+        });
     }
 
     private void createBucketAndInsertJsonFile() {

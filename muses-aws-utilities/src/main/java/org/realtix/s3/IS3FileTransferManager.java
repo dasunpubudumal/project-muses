@@ -1,4 +1,4 @@
-package org.realtix;
+package org.realtix.s3;
 
 import jdk.jshell.spi.ExecutionControl;
 import org.realtix.exception.AwsException;
@@ -59,7 +59,7 @@ public interface IS3FileTransferManager<T> {
      * Remove an object denoted by key
      * @param key key of the object
      */
-    default void remove(String key) throws ExecutionControl.NotImplementedException {
+    default void remove(String key, String bucket) throws ExecutionControl.NotImplementedException, AwsException {
         throw new ExecutionControl.NotImplementedException(
                 "Not Implemented"
         );
