@@ -1,13 +1,10 @@
-package org.realtix;
+package org.realtix.s3;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Tag;
 import org.realtix.exception.AwsException;
-import org.realtix.s3.ConversionBound;
-import org.realtix.s3.S3ClientWrapper;
-import org.realtix.s3.S3FileTransferManager;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -23,6 +20,8 @@ import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.waiters.S3Waiter;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -117,7 +116,7 @@ public class S3FileTransferManagerIntegrationTest {
     @Test
     @DisplayName("Given a bucket and a file key, check whether the file is retrieved")
     void testGet() throws AwsException {
-        createBucketAndInsertJsonFile();
+        createBucketAndInsertJsonFile("sample-json.json", "person.json");
         Person person = transferManager.get("person.json", DATA_LAKE_NAME);
         assertNotNull(person);
         assertEquals("Dasun Pubudumal", person.getName());
@@ -126,7 +125,7 @@ public class S3FileTransferManagerIntegrationTest {
     @Test
     @DisplayName("Given a bucket, a file and the file key, test removing the file")
     void testRemove() throws AwsException {
-        createBucketAndInsertJsonFile();
+        createBucketAndInsertJsonFile("sample-json.json", "person.json");
         transferManager.remove("person.json", DATA_LAKE_NAME);
         assertThrows(NoSuchKeyException.class, () -> {
             s3.getObject(
@@ -138,14 +137,29 @@ public class S3FileTransferManagerIntegrationTest {
         });
     }
 
-    private void createBucketAndInsertJsonFile() {
+    @Test
+    @DisplayName("Given an object in S3, test fetching the object chunk-wise")
+    void testGetDataByChunks() throws AwsException {
+        createBucketAndInsertJsonFile("MOCK_DATA.json", "MOCK_DATA.json");
+        List<String> strings = new ArrayList<>();
+        transferManager.readAndProcessChunks(
+                "MOCK_DATA.json",
+                DATA_LAKE_NAME,
+                strings::add
+        );
+        assertTrue(
+                strings.size() > 0
+        );
+    }
+
+    private void createBucketAndInsertJsonFile(String fileName, String key) {
         createBucket();
         PutObjectRequest putOb = PutObjectRequest.builder()
                 .bucket(DATA_LAKE_NAME)
-                .key("person.json")
+                .key(key)
                 .build();
         s3.putObject(putOb, RequestBody.fromFile(new File(
-                Objects.requireNonNull(this.getClass().getClassLoader().getResource("sample-json.json")).getFile()
+                Objects.requireNonNull(this.getClass().getClassLoader().getResource(fileName)).getFile()
         )));
     }
 
