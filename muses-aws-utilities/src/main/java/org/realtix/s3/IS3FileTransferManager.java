@@ -4,6 +4,7 @@ import jdk.jshell.spi.ExecutionControl;
 import org.realtix.exception.AwsException;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * File transfer manager for S3
@@ -28,6 +29,13 @@ public interface IS3FileTransferManager<T> {
      * @return returned object
      */
     default T get(String key, String bucket) throws ExecutionControl.NotImplementedException, AwsException {
+        throw new ExecutionControl.NotImplementedException(
+                "Not Implemented"
+        );
+    }
+
+    default void readAndProcessChunks(String key, String bucket, Consumer<String> executable)
+            throws ExecutionControl.NotImplementedException, AwsException {
         throw new ExecutionControl.NotImplementedException(
                 "Not Implemented"
         );

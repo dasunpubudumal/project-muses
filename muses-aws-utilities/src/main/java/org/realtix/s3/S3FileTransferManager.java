@@ -1,6 +1,8 @@
 package org.realtix.s3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import jdk.jshell.spi.ExecutionControl;
 import org.realtix.ObjectMapperSingleton;
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Component
 public final class S3FileTransferManager<T extends ConversionBound> implements IS3FileTransferManager<T> {
@@ -36,6 +39,17 @@ public final class S3FileTransferManager<T extends ConversionBound> implements I
         } catch (JsonProcessingException e) {
             throw new AwsException(e.getMessage());
         }
+    }
+
+    @Override
+    public void readAndProcessChunks(String key, String bucket, Consumer<String> executable)
+            throws AwsException {
+        s3ClientWrapper.processObjectByChunks(
+                bucket,
+                key,
+                1024,
+                executable
+        );
     }
 
     @Override

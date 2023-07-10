@@ -1,4 +1,4 @@
-package org.realtix;
+package org.realtix.s3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.realtix.ObjectMapperSingleton;
 import org.realtix.exception.AwsException;
 import org.realtix.s3.ConversionBound;
 import org.realtix.s3.S3ClientWrapper;
