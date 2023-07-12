@@ -1,8 +1,5 @@
 package org.realtix.s3;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.realtix.ObjectMapperSingleton;
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -12,17 +9,13 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @Component
 public final class S3ClientWrapper {
 
     private final S3Client s3Client;
-    private static final StringWriter STRING_WRITER = new StringWriter();
 
     public S3ClientWrapper(S3Client s3Client) {
         this.s3Client = s3Client;
@@ -35,8 +28,10 @@ public final class S3ClientWrapper {
      * @param executable e.g. (str) -> str.length()
      * @throws AwsException thrown exception
      */
-    public void processObjectByChunks(String bucketName, String key, int chunkSize,
-                                   Consumer<String> executable)
+    public void processObjectByChunks(String bucketName,
+                                      String key,
+                                      int chunkSize,
+                                      Consumer<String> executable)
             throws AwsException {
 
         HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
