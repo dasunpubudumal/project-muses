@@ -4,8 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.realtix.config.ExternalConfiguration;
+import org.realtix.parameter.IParameterStore;
 import org.realtix.processor.AbstractProcessor;
 import org.realtix.processor.ContentProcessor;
+import org.realtix.s3.S3FileTransferManager;
+import org.realtix.transfer.BookRow;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.ByteArrayInputStream;
@@ -28,10 +32,18 @@ class ProcessorFactoryTest {
             AnnotationConfigApplicationContext.class
     );
 
+    S3FileTransferManager<BookRow> s3FileTransferManager = mock(
+            S3FileTransferManager.class
+    );
+
+    ExternalConfiguration externalConfiguration = mock(
+            ExternalConfiguration.class
+    );
+
     @BeforeEach
     void setUp() {
         when(annotationConfigApplicationContext.getBean(ContentProcessor.class))
-                .thenReturn(new ContentProcessor());
+                .thenReturn(new ContentProcessor(s3FileTransferManager, externalConfiguration));
     }
 
     @Test
