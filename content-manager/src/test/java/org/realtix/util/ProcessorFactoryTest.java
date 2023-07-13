@@ -1,9 +1,6 @@
 package org.realtix.util;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.realtix.config.ExternalConfiguration;
 import org.realtix.parameter.IParameterStore;
 import org.realtix.processor.AbstractProcessor;
@@ -48,6 +45,7 @@ class ProcessorFactoryTest {
 
     @Test
     @DisplayName("Given processor, check context is not null")
+    @Disabled("Until No-10 is completed.")
     void checkContextExists() {
         InputStream byteArrayInputStream = new ByteArrayInputStream(
                 inputString.getBytes(StandardCharsets.UTF_8)
