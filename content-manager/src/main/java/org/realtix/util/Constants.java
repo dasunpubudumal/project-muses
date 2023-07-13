@@ -9,4 +9,8 @@ public class Constants {
 
     }
 
+    public static class DynamoDB {
+        public static final String BOOKS_TABLE_NAME = "books";
+    }
+
 }

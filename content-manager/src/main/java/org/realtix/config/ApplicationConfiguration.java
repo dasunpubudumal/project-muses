@@ -1,20 +1,37 @@
 package org.realtix.config;
 
+import org.realtix.dynamodb.AbstractDynamoDbRepository;
 import org.realtix.parameter.IParameterStore;
 import org.realtix.parameter.ParameterStore;
 import org.realtix.parameter.ParameterStoreWrapper;
 import org.realtix.processor.ContentProcessor;
+import org.realtix.repository.BookRepository;
 import org.realtix.s3.S3ClientWrapper;
 import org.realtix.s3.S3FileTransferManager;
 import org.realtix.transfer.BookRow;
 import org.realtix.util.Constants;
 import org.springframework.context.annotation.Bean;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.ssm.SsmClient;
 
 import java.net.URI;
 
 public class ApplicationConfiguration {
+
+    @Bean
+    public BookRepository<BookRow> dbRepository(DynamoDbClient dynamoDbClient) {
+        return new BookRepository<>(
+                dynamoDbClient,
+                Constants.DynamoDB.BOOKS_TABLE_NAME,
+                BookRow.class
+        );
+    }
+
+    @Bean
+    public DynamoDbClient dynamoDbClient() {
+        return DynamoDbClient.builder().build();
+    }
 
     @Bean
     public SsmClient ssmClient() {
@@ -55,9 +72,9 @@ public class ApplicationConfiguration {
     @Bean
     public ContentProcessor contentProcessor(
             S3FileTransferManager<BookRow> s3FileTransferManager,
-            IParameterStore parameterStore,
-            ExternalConfiguration externalConfiguration) {
-        return new ContentProcessor(s3FileTransferManager, externalConfiguration);
+            ExternalConfiguration externalConfiguration,
+            BookRepository<BookRow> repository) {
+        return new ContentProcessor(s3FileTransferManager, externalConfiguration, repository);
     }
 
     @Bean

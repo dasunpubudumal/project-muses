@@ -9,6 +9,9 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class AbstractDynamoDbRepository<T> {
@@ -101,6 +104,18 @@ public class AbstractDynamoDbRepository<T> {
 
     protected void removeItem(Key key) {
         this.table.deleteItem(key);
+    }
+
+    protected void saveBatch(List<T> items, int threadCount) {
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        for (T item : items) {
+            futures.add(
+                    CompletableFuture.runAsync(() -> saveItem(item), executorService)
+            );
+        }
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        executorService.shutdown();
     }
 
 }

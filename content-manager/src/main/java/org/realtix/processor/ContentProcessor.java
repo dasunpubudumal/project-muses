@@ -3,9 +3,11 @@ package org.realtix.processor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.realtix.config.ExternalConfiguration;
+import org.realtix.dynamodb.AbstractDynamoDbRepository;
 import org.realtix.exception.ApplicationException;
 import org.realtix.exception.AwsException;
 import org.realtix.parameter.IParameterStore;
+import org.realtix.repository.BookRepository;
 import org.realtix.s3.S3ClientWrapper;
 import org.realtix.s3.S3FileTransferManager;
 import org.realtix.transfer.BookRow;
@@ -23,11 +25,14 @@ public class ContentProcessor extends AbstractProcessor {
     private ProcessingContext context;
     private final S3FileTransferManager<BookRow> s3FileTransferManager;
     private final ExternalConfiguration configuration;
+    private final BookRepository<BookRow> repository;
 
     public ContentProcessor(S3FileTransferManager<BookRow> s3FileTransferManager,
-                            ExternalConfiguration configuration) {
+                            ExternalConfiguration configuration,
+                            BookRepository<BookRow> repository) {
         this.s3FileTransferManager = s3FileTransferManager;
         this.configuration = configuration;
+        this.repository = repository;
     }
 
     @Override
@@ -43,9 +48,10 @@ public class ContentProcessor extends AbstractProcessor {
                     configuration.getContentFileName(),
                     configuration.getBucketName()
             );
-            List<BookRow> bookRows = bookRows(readAndProcessChunks);
             // persist in dynamodb
+            List<BookRow> bookRows = bookRows(readAndProcessChunks);
             log.info("Final string length: {}", readAndProcessChunks.length());
+            repository.saveBatch(bookRows, 5);
         } catch (AwsException | JsonProcessingException e) {
             throw new ApplicationException(e.getMessage());
         }

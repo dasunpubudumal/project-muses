@@ -2,9 +2,11 @@ package org.realtix.util;
 
 import org.junit.jupiter.api.*;
 import org.realtix.config.ExternalConfiguration;
+import org.realtix.dynamodb.AbstractDynamoDbRepository;
 import org.realtix.exception.AwsException;
 import org.realtix.processor.AbstractProcessor;
 import org.realtix.processor.ContentProcessor;
+import org.realtix.repository.BookRepository;
 import org.realtix.s3.S3FileTransferManager;
 import org.realtix.transfer.BookRow;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -37,14 +39,19 @@ class ProcessorFactoryTest {
             ExternalConfiguration.class
     );
 
+    BookRepository<BookRow> repository = mock(
+            BookRepository.class
+    );
+
     @BeforeEach
     void setUp() throws AwsException {
         when(s3FileTransferManager.readAndProcessChunks(
                 any(),
                 any()
         )).thenReturn("[{\"isbn\": \"123121\"}]");
+        doNothing().when(repository).saveBatch(any(), anyInt());
         when(annotationConfigApplicationContext.getBean(ContentProcessor.class))
-                .thenReturn(new ContentProcessor(s3FileTransferManager, externalConfiguration));
+                .thenReturn(new ContentProcessor(s3FileTransferManager, externalConfiguration, repository));
     }
 
     @Test
