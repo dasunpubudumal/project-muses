@@ -41,6 +41,13 @@ public interface IS3FileTransferManager<T> {
         );
     }
 
+    default String readAndProcessChunks(String key, String bucket)
+            throws ExecutionControl.NotImplementedException, AwsException{
+        throw new ExecutionControl.NotImplementedException(
+                "Not Implemented"
+        );
+    }
+
     /**
      * Insert data for key
      * @param data data

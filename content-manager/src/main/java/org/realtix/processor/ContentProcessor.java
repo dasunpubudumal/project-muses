@@ -38,17 +38,14 @@ public class ContentProcessor extends AbstractProcessor {
     @Override
     public void process() {
         log.info("Processing Content.");
-        StringBuilder stringBuilder = new StringBuilder();
         try {
-            s3FileTransferManager.readAndProcessChunks(
+            String readAndProcessChunks = s3FileTransferManager.readAndProcessChunks(
                     configuration.getContentFileName(),
-                    configuration.getBucketName(),
-                    stringBuilder::append
+                    configuration.getBucketName()
             );
-            String fileAsString = stringBuilder.toString();
-            List<BookRow> bookRows = bookRows(fileAsString);
+            List<BookRow> bookRows = bookRows(readAndProcessChunks);
             // persist in dynamodb
-            log.info("Final string length: {}", fileAsString.length());
+            log.info("Final string length: {}", readAndProcessChunks.length());
         } catch (AwsException | JsonProcessingException e) {
             throw new ApplicationException(e.getMessage());
         }
