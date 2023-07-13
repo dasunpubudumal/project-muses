@@ -6,32 +6,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Tag;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.core.waiters.WaiterResponse;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.*;
-import software.amazon.awssdk.services.dynamodb.waiters.DynamoDbWaiter;
 
 import java.io.IOException;
-import java.net.URI;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.DYNAMODB;
-import static org.testcontainers.containers.localstack.LocalStackContainer.Service.SSM;
 
 @Testcontainers
 @Slf4j
 @Tag("Integration")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AbstractDynamoDbRepositoryTest {
 
     @Setter
@@ -83,37 +79,12 @@ class AbstractDynamoDbRepositoryTest {
             .endpointOverride(localstack.getEndpointOverride(DYNAMODB))
             .region(Region.of(localstack.getRegion()))
             .build();
-    @Test
-    void scan() {
-    }
+
 
     @Test
-    void update() {
-    }
-
-    @Test
-    @DisplayName("Given key, retrieve item from DynamoDB")
-    void getItem() {
-    }
-
-    @Test
-    void query() {
-    }
-
-    @Test
-    void saveItem() throws IOException, InterruptedException {
-        customRepository = new CustomRepository(
-                dynamoDbClient,
-                "my-data",
-                CustomClass.class
-        );
-        localstack.execInContainer(
-                "awslocal", "dynamodb", "create-table",
-                "--table-name", "my-data", "--key-schema", "AttributeName=id,KeyType=HASH",
-                "--attribute-definitions", "AttributeName=id,AttributeType=S",
-                "--billing-mode", "PAY_PER_REQUEST",
-                "--region", localstack.getRegion()
-        );
+    @DisplayName("Given object, save it")
+    @Order(1)
+    void saveItem() {
         assertDoesNotThrow(() -> customRepository.saveItem(
                 CustomClass.builder()
                         .id("123")
@@ -123,45 +94,58 @@ class AbstractDynamoDbRepositoryTest {
         ));
     }
 
-    private String createTable(DynamoDbClient ddb, String tableName, String key) {
-        DynamoDbWaiter dbWaiter = ddb.waiter();
-        CreateTableRequest request = CreateTableRequest.builder()
-                .attributeDefinitions(AttributeDefinition.builder()
-                        .attributeName(key)
-                        .attributeType(ScalarAttributeType.S)
-                        .build())
-                .keySchema(KeySchemaElement.builder()
-                        .attributeName(key)
-                        .keyType(KeyType.HASH)
-                        .build())
-                .provisionedThroughput(ProvisionedThroughput.builder()
-                        .readCapacityUnits(10L)
-                        .writeCapacityUnits(10L)
-                        .build())
-                .tableName(tableName)
-                .build();
+    @Test
+    @Order(2)
+    @DisplayName("Given key, retrieve item from DynamoDB")
+    void getItem() {
+        CustomClass item = customRepository.getItem(Key.builder().partitionValue("123").build());
+        assertNotNull(item);
+        assertEquals(
+                29,
+                item.getAge()
+        );
+    }
 
-        String newTable ="";
-        try {
-            CreateTableResponse response = ddb.createTable(request);
-            DescribeTableRequest tableRequest = DescribeTableRequest.builder()
-                    .tableName(tableName)
-                    .build();
+    @Test
+    @Order(3)
+    @DisplayName("Given key, update the corresponding record")
+    void update() {
+        assertDoesNotThrow(() -> customRepository.update(
+                CustomClass.builder()
+                        .id("123")
+                        .age(100)
+                        .name("Robert Oppenheimer")
+                        .build()
+        ));
+    }
 
-            // Wait until the Amazon DynamoDB table is created.
-            WaiterResponse<DescribeTableResponse> waiterResponse = dbWaiter.waitUntilTableExists(tableRequest);
-            waiterResponse.matched().response().ifPresent(System.out::println);
-            newTable = response.tableDescription().tableName();
-            return newTable;
-
-        } catch (DynamoDbException e) {
-            throw new RuntimeException(e);
-        }
+    @Test
+    @Order(4)
+    @DisplayName("Given key, remove the corresponding item")
+    void removeItem() {
+        assertDoesNotThrow(() ->
+                customRepository.removeItem(Key.builder().partitionValue("123").build()));
     }
 
     @BeforeAll
-    static void setup() {
+    static void setup() throws IOException, InterruptedException {
         localstack.start();
+        localstack.execInContainer(
+                "awslocal", "dynamodb", "create-table",
+                "--table-name", "my-data", "--key-schema", "AttributeName=id,KeyType=HASH",
+                "--attribute-definitions", "AttributeName=id,AttributeType=S",
+                "--billing-mode", "PAY_PER_REQUEST",
+                "--region", localstack.getRegion()
+        );
+    }
+
+    @BeforeEach
+    void setUp() {
+        customRepository = new CustomRepository(
+                dynamoDbClient,
+                "my-data",
+                CustomClass.class
+        );
     }
 
     @AfterAll

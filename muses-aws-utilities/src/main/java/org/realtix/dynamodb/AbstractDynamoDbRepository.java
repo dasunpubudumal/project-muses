@@ -99,4 +99,8 @@ public class AbstractDynamoDbRepository<T> {
         this.table.putItem(item);
     }
 
+    protected void removeItem(Key key) {
+        this.table.deleteItem(key);
+    }
+
 }
