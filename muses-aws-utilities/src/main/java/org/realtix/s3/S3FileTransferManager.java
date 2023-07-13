@@ -1,6 +1,7 @@
 package org.realtix.s3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jdk.jshell.spi.ExecutionControl;
 import org.realtix.ObjectMapperSingleton;
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,17 @@ public final class S3FileTransferManager<T extends ConversionBound> implements I
                 1024,
                 executable
         );
+    }
+
+    @Override
+    public String readAndProcessChunks(String key, String bucket) throws AwsException {
+        StringBuilder stringBuilder = new StringBuilder();
+        readAndProcessChunks(
+                bucket,
+                key,
+                stringBuilder::append
+        );
+        return stringBuilder.toString();
     }
 
     @Override
