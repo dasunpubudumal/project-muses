@@ -2,13 +2,12 @@ package org.realtix.util;
 
 import org.junit.jupiter.api.*;
 import org.realtix.config.ExternalConfiguration;
-import org.realtix.dynamodb.AbstractDynamoDbRepository;
 import org.realtix.exception.AwsException;
 import org.realtix.processor.AbstractProcessor;
 import org.realtix.processor.ContentProcessor;
 import org.realtix.repository.BookRepository;
 import org.realtix.s3.S3FileTransferManager;
-import org.realtix.transfer.BookRow;
+import org.realtix.domain.BookRowEntity;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +30,7 @@ class ProcessorFactoryTest {
             AnnotationConfigApplicationContext.class
     );
 
-    S3FileTransferManager<BookRow> s3FileTransferManager = mock(
+    S3FileTransferManager<BookRowEntity> s3FileTransferManager = mock(
             S3FileTransferManager.class
     );
 
@@ -39,7 +38,7 @@ class ProcessorFactoryTest {
             ExternalConfiguration.class
     );
 
-    BookRepository<BookRow> repository = mock(
+    BookRepository<BookRowEntity> repository = mock(
             BookRepository.class
     );
 
