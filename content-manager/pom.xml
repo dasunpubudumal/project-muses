@@ -31,6 +31,10 @@
             <artifactId>aws-serverless-java-container-springboot3</artifactId>
             <version>${aws.serverless.spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
