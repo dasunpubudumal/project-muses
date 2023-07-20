@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 public class ContentProcessor extends AbstractProcessor {
 
     private ProcessingContext context;
-    private final S3FileTransferManager<BookRowEntity> s3FileTransferManager;
+    private final S3FileTransferManager s3FileTransferManager;
     private final ExternalConfiguration configuration;
     private final BookRepository<BookRowEntity> repository;
     private final ModelMapper modelMapper;
 
-    public ContentProcessor(S3FileTransferManager<BookRowEntity> s3FileTransferManager,
+    public ContentProcessor(S3FileTransferManager s3FileTransferManager,
                             ExternalConfiguration configuration,
                             BookRepository<BookRowEntity> repository) {
         this.s3FileTransferManager = s3FileTransferManager;
@@ -42,11 +42,11 @@ public class ContentProcessor extends AbstractProcessor {
 
     @Override
     public void process() {
-        log.info("Processing Content.");
+        log.info("Processing Content from {}/{}.", configuration.getBucketName(), configuration.getContentFileName());
         try {
             String readAndProcessChunks = s3FileTransferManager.readAndProcessChunks(
-                    configuration.getContentFileName(),
-                    configuration.getBucketName()
+                    configuration.getBucketName().trim(),
+                    configuration.getContentFileName().trim()
             );
             // persist in dynamodb
             List<BookRow> bookRows = bookRows(readAndProcessChunks);

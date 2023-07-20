@@ -50,11 +50,6 @@ public class ApplicationConfiguration {
     @Bean
     public S3Client s3Client(IParameterStore parameterStore, ExternalConfiguration externalConfiguration) {
         return S3Client.builder()
-                .endpointOverride(URI.create(
-                        parameterStore.getParameter(
-                                externalConfiguration.getPathUrlS3()
-                        )
-                ))
                 .build();
     }
 
@@ -64,13 +59,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public S3FileTransferManager<BookRowEntity> s3ClientWrapper(S3ClientWrapper s3ClientWrapper) {
+    public S3FileTransferManager s3FileTransferManager(S3ClientWrapper s3ClientWrapper) {
         return new S3FileTransferManager<>(s3ClientWrapper, BookRowEntity.class);
     }
 
     @Bean
     public ContentProcessor contentProcessor(
-            S3FileTransferManager<BookRowEntity> s3FileTransferManager,
+            S3FileTransferManager s3FileTransferManager,
             ExternalConfiguration externalConfiguration,
             BookRepository<BookRowEntity> repository) {
         return new ContentProcessor(s3FileTransferManager, externalConfiguration, repository);

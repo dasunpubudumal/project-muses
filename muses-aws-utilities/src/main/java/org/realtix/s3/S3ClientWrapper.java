@@ -1,5 +1,6 @@
 package org.realtix.s3;
 
+import lombok.extern.slf4j.Slf4j;
 import org.realtix.exception.AwsException;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -12,6 +13,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
+@Slf4j
 @Component
 public final class S3ClientWrapper {
 
@@ -34,6 +36,8 @@ public final class S3ClientWrapper {
                                       Consumer<String> executable)
             throws AwsException {
 
+        log.info("Trying to read object: {}/{}", bucketName, key);
+
         HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
@@ -42,6 +46,8 @@ public final class S3ClientWrapper {
 
         long currentPosition = 0;
         long remainingBytes = headObjectResponse.contentLength();
+
+        log.info("Head bucket response content length: {}", remainingBytes);
 
         while (remainingBytes > 0) {
             // Calculate the chunk size for the current iteration

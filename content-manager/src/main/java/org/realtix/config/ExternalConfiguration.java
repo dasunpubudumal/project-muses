@@ -1,10 +1,12 @@
 package org.realtix.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.realtix.exception.ApplicationException;
 import org.realtix.parameter.IParameterStore;
 import org.realtix.util.Constants;
 import software.amazon.awssdk.utils.StringUtils;
 
+@Slf4j
 public class ExternalConfiguration {
 
     private final IParameterStore parameterStore;
@@ -23,6 +25,7 @@ public class ExternalConfiguration {
 
     public String getPathUrlS3() {
         String pathUrl = parameterStore.getParameter(Constants.Configuration.PARAMETER_STORE_PATH_CONTENT);
+        log.info("PATH URL: {}", pathUrl);
         if (StringUtils.isEmpty(pathUrl)) {
             throw new ApplicationException("Path URL not found!");
         }
