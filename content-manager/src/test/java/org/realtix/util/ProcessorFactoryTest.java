@@ -48,6 +48,10 @@ class ProcessorFactoryTest {
                 any(),
                 any()
         )).thenReturn("[{\"isbn\": \"123121\"}]");
+        when(externalConfiguration.getContentFileName())
+                .thenReturn("sample-file.json");
+        when(externalConfiguration.getBucketName())
+                .thenReturn("bucket");
         doNothing().when(repository).saveBatch(any(), anyInt());
         when(annotationConfigApplicationContext.getBean(ContentProcessor.class))
                 .thenReturn(new ContentProcessor(s3FileTransferManager, externalConfiguration, repository));
